@@ -1,0 +1,975 @@
+<html>
+
+<head>
+    <script src="https://amirhossainj123.github.io/website.js"></script>
+    <script>
+        setTimeout(() => {
+            document.getElementById("lines").textContent += document.head.textContent.split("\n").length + document.body.textContent.split("\n").length
+            document.getElementById("chars").textContent += document.head.textContent.length + document.body.textContent.length
+        },2000)
+    </script>
+    <title>Documentation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Shantell+Sans&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap');
+
+        body {
+            background-color: black;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        .Information {
+            display: inline-block;
+            background-color: gray;
+            border-radius: 30px;
+            width: 60%;
+            height: 100%;
+            padding-left: 20px;
+            padding-right: 20px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .Information::-webkit-scrollbar {
+            display: none;
+        }
+
+        .Information h3::-webkit-scrollbar {
+            display: none;
+        }
+
+        .categories {
+            display: inline-block;
+            background-color: gray;
+            border-radius: 30px;
+            width: 30%;
+            height: 100%;
+            padding-left: 20px;
+            padding-right: 20px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .categories a {
+            display: block;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: large;
+            cursor: pointer;
+        }
+
+        .categories p {
+            display: block;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: x-large;
+            margin-bottom: 5px;
+        }
+
+        .categories h4 {
+            margin: 0px;
+            margin-top: 20px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        .Information h4 {
+            margin: 5px;
+            font-size: large;
+            font-family: 'Shantell Sans', cursive;
+        }
+
+        .Information h3 {
+            transition: 500ms;
+            margin: 5px;
+            font-size: large;
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: rgb(80, 80, 80);
+            border-radius: 10px;
+            border: 3px solid rgb(70, 70, 70);
+            padding-top: 7px;
+            padding-bottom: 7px;
+            padding-left: 5px;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .Information h3:hover {
+            transition: 500ms;
+            background-color: rgb(65, 65, 65);
+            ;
+            color: black;
+        }
+
+        .Information sup {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        .Information h1 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-bottom: 10px;
+        }
+
+        .Information h2 {
+            font-family: 'Tilt Warp', cursive;
+            font-size: 50px;
+            margin-bottom: 0px;
+            text-align: center;
+            border: 2px solid rgb(34, 34, 34);
+            box-shadow: 0px 10px 10px black;
+            border-radius: 10px;
+        }
+
+        .shadow {
+            background-color: gray;
+            height: 50px;
+            width: 61%;
+            box-shadow: 0px -20px 20px gray;
+            position: absolute;
+            bottom: 0px;
+            transform: translateY(-5px) translateX(-1%);
+            border-radius: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="categories">
+        <p>Introduction</p>
+        <a href="#intro">Introduce</a>
+        <a href="#how">How does it work?</a>
+        <a href="#install">Installation</a>
+        <a href="#start">Getting started part 1</a>
+        <a href="#starter">Getting started part 2</a>
+        <a href="#beginner">Getting started part 3</a>
+        <h4>____________________________________________</h4>
+        <p>Commands & Library</p>
+        <a href="#shape">Shapes</a>
+        <a href="#material">Materials</a>
+        <a href="#obj">Objects</a>
+        <a href="#cmds">Commands</a>
+        <a href="#forces">Forces & Physics</a>
+        <a href="#collide">Collisions</a>
+        <h4>____________________________________________</h4>
+        <p>Miscellaneous</p>
+        <a href="#support">Support Us</a>
+        <a href="#about">About Us</a>
+    </div>
+    <div class="Information">
+        <div class="shadow"></div>
+        <h2>Introduction</h2>
+        <h1 id="intro">Introduce</h1>
+        <h4>So you want to make your own game, with coding, but you don't know much about coding?</h4>
+        <h4>you search on internet to find a good game making library for js, that is simple enough</h4>
+        <h4>or maybe ask a friend which introduces this game making library</h4>
+        <br>
+        <h4>And here we are introducing Electrame a simple Game Making<sup>2D</sup> library</h4>
+        <h4>which can make games so simply, you just got to know javascript<sup> a lil bit</sup> and</h4>
+        <h4>you can start making your own game already! this library obviously, isn't as advanced as three<sup>js</sup>
+        </h4>
+        <h4>cause its not supposed to be advanced, like the meaning of "simple game making library"</h4>
+        <h4>is that the user can make its own game simply, and making it simple kinda have limitations</h4>
+        <br>
+        <h1 id="how">How does it work?</h1>
+        <h4>So reading this part means you like our library, right? :D</h4>
+        <h4>well our library uses a thing in html called canvas, which is sadly not supported in firefox</h4>
+        <h4>canvas gives the programmers tools to make cool screens and stuff, but it might get annoying very soon</h4>
+        <h4>for game making. here you understand what you write, which is technically possible if you make your game
+            with functions</h4>
+        <h4>but we did it for you so not needed, for example here you can just define a shape and pick a color</h4>
+        <h4>or just put a rgb color yourself there, but we put a bunch of premade and useful colors there for you so yep
+        </h4>
+        <h4>and just merge those 2 things into a object, which will generate this informations with it too</h4>
+        <h4>Position X, Position Y, Velocity X, Velocity Y, (Scale X, Scale Y) or Radius, Id, Shape, Cid</h4>
+        <h4>Cid is the collision id, which for example an image has a collision id of a rectangle("Square" in the code)
+        </h4>
+        <h4>which you never ever need to touch unless you want your image to collide differently which happens rarely
+            and others are obvious</h4>
+        <h4>so how do we render stuff?</h4>
+        <h4>we draw the frame, then after the next frame we delete the old frame and create a new one</h4>
+        <h4>Note: our X and Y positioning and velocity system is, Increase X = to the right of the screen, Increase Y =
+            to the bottom of the screen</h4>
+        <br>
+        <h1 id="install">Installation</h1>
+        <h4>Just add this to your html code, also run the script inside or after the body!!!!</h4>
+        <h3>&lt;script src="electrame.js"&gt;&lt;/script&gt;</h3>
+        <br>
+        <h1 id="start">Getting Started PART 1</h1>
+        <h4>So finally a new user wants to learn our library, AMAZING!</h4>
+        <h4>so we add the canvas to html like the normal way OR we use ECreateGame(id,width,height) which we gonna
+            name the game: first</h4>
+        <h4>and I think our game would be 600 by 300 so here it is</h4>
+        <h3>ECreateGame("first", 600, 300);</h3>
+        <h4>Then we can config if our world has gravity or friction</h4>
+        <h3>let Gravity = false;
+            let Friction = true;
+            EConfig(Gravity,Friction);</h3>
+        <h4>Then we can define our game! with EGame(id) which in this case is</h4>
+        <h3>let Game = new EGame("first");</h3>
+        <h4>Now we have our game! but we need a background right? first lets add the color of it, I am gonna go with
+            bright blue<sup>Day color</sup></h4>
+        <h4>so we can use EColors for premade stuff, so this is how it is EColors(opacity 1 to 0).color</h4>
+        <h3>let Background = new EColors(1).DAY;</h3>
+        <h4>You can check the materials tab for a full list of the colors you can also use RGB</h4>
+        <h4>So the color is set, but for the shape, we all know our background is rectangle but sometimes you might use
+            css to make your game screen circle</h4>
+        <h4>but we not gonna do that now so lets define the shape of the background! we can use ESquare(width,height)
+        </h4>
+        <h3>let Background_Resolution = new ESquare(600,300);</h3>
+        <h4>now lets define the object! (x,y,shape,material)</h4>
+        <h3>let Sky = new EObject(0,0,Background_Resolution,Background);</h3>
+        <h4>now we defined the background, you can try and define the ground yourself now too</h4>
+        <h4>so after we defined everything we define a function and render everything! (Game, Object)</h4>
+        <h3>function my_first_game() {
+            ERender(Game,Sky);
+            }
+            my_first_game();</h3>
+        <h4>current code:</h4>
+        <h3>ECreateGame("first", 600, 300);
+            let Gravity = false;
+            let Friction = true;
+            EConfig(Gravity,Friction);
+            let Game = new EGame("first");
+            let Background = new EColors(1).DAY;
+            let Background_Resolution = new ESquare(600,300);
+            let Sky = new EObject(0,0,Background_Resolution,Background);
+            function my_first_game() {
+            ERender(Game,Sky);
+            }
+            my_first_game();</h3>
+        <h4>so enough for part one!</h4>
+        <br>
+        <h1 id="starter">Getting Started PART 2</h1>
+        <h4>Oooo hi again :D</h4>
+        <h4>so in the last part we learned how to create an object and render it out!</h4>
+        <h4>now we can code something just like this!</h4>
+        <h3>ECreateGame("first", 600, 300);
+            let Gravity = false;
+            let Friction = true;
+            EConfig(Gravity,Friction);
+            let Game = new EGame("first");
+            let Background = new EColors(1).DAY;
+            let Background_Resolution = new ESquare(600,300);
+            let Sky = new EObject(0,0,Background_Resolution,Background);
+            let Grass = new EColors(1).GREEN;
+            let Ground_Resolution = new ESquare(600,50);
+            let Ground = new EObject(0,250,Ground_Resolution,Grass);
+            let Player_Color = new EColors(1).BLACK;
+            let Player_Shape = new ESquare(10,10);
+            let Player = new EObject(20,230,Player_Shape,Player_Color);
+            function my_first_game() {
+            ERender(Game,Sky);
+            ERender(Game,Ground);
+            ERender(Game,Player);
+            }
+            my_first_game();</h3>
+        <h4>So we have drawn a simple sky and a ground and the player on top of the ground</h4>
+        <h4>I am gonna add some keys for the player to move, but before that we need to do a bit of physics stuff</h4>
+        <h4>I am gonna also turn on the gravity since we have a ground cause thats how usually games work?</h4>
+        <h4>But first off, our current thing is just a dead image, if we want to bring animation we have to loop it</h4>
+        <h4>to loop it, we not gonna use for or while or something like that, we need a slow loop so like this</h4>
+        <h4>we can setup a loop that runs every 10ms which is our frame rate speed! we can change fps that but we keep
+            it like that for now</h4>
+        <h3>function example() {
+            setTimeout(() => {
+            // your code goes here!
+            example();
+            }, 10);
+            }</h3>
+        <h4>we also need to clear the screen every time we want to render again</h4>
+        <h4>another command introduced! EClear()</h4>
+        <h4>So if we implement the same thing we used in this and the other example and enable gravity we get this:</h4>
+        <h3>ECreateGame("first", 600, 300);
+            let Gravity = true;
+            let Friction = true;
+            EConfig(Gravity,Friction);
+            let Game = new EGame("first");
+            let Background = new EColors(1).DAY;
+            let Background_Resolution = new ESquare(600,300);
+            let Sky = new EObject(0,0,Background_Resolution,Background);
+            let Grass = new EColors(1).GREEN;
+            let Ground_Resolution = new ESquare(600,50);
+            let Ground = new EObject(0,250,Ground_Resolution,Grass);
+            let Player_Color = new EColors(1).BLACK;
+            let Player_Shape = new ESquare(10,10);
+            let Player = new EObject(20,230,Player_Shape,Player_Color);
+            function my_first_game() {
+            setTimeout(() => {
+            EClear(Game);
+            ERender(Game,Sky);
+            ERender(Game,Ground);
+            ERender(Game,Player);
+            my_first_game();
+            }, 10);
+            }
+            my_first_game();</h3>
+        <h4>But as you see nothing is happening</h4>
+        <h4>So I introduce you another command! EApplyPhysicsTo(object)</h4>
+        <h4>So this command applies the physics you have just set in the config part! remmeber?</h4>
+        <h4>So maybe you wanted to turn off gravity and friction, you can just don't run this command!</h4>
+        <h4>NOTE: The friction, is not the friction for all objects its for the air, if your game is in space set it to 0 for example</h4>
+        <h4>So I also have to introduce another command which applies the motion of the object</h4>
+        <h4>Like if you apply a lot of force and gravity and friction, Bla bla bla, you need to ALSO run this command
+        </h4>
+        <h4>or else non of them move, EApplyMotion(Object)</h4>
+        <h4>So lets just put these all together</h4>
+        <h3>ECreateGame("first", 600, 300);
+            let Gravity = true;
+            let Friction = true;
+            EConfig(Gravity,Friction);
+            let Game = new EGame("first");
+            let Background = new EColors(1).DAY;
+            let Background_Resolution = new ESquare(600,300);
+            let Sky = new EObject(0,0,Background_Resolution,Background);
+            let Grass = new EColors(1).GREEN;
+            let Ground_Resolution = new ESquare(600,50);
+            let Ground = new EObject(0,250,Ground_Resolution,Grass);
+            let Player_Color = new EColors(1).BLACK;
+            let Player_Shape = new ESquare(10,10);
+            let Player = new EObject(20,230,Player_Shape,Player_Color);
+            function my_first_game() {
+            setTimeout(() => {
+            Player = EApplyMotion(Player);
+            Player = EApplyPhysicsTo(Player);
+            EClear(Game);
+            ERender(Game,Sky);
+            ERender(Game,Ground);
+            ERender(Game,Player);
+            my_first_game();
+            }, 10);
+            }
+            my_first_game();</h3>
+        <h4>So as you see there is a cube which falls and phase through the ground but we don't like that!</h4>
+        <h4>So we make the ground have collision! with introducing another command: </h4>
+        <h4>EApplyCollision(Dynamic Object, Static Object, Bounce Force)</h4>
+        <h4>I know it was hard but trust me its simple ;-;</h4>
+        <h4>Note: if you want 2 Dynamic object just run this command 2 times but change the place of the first arg with
+            the second</h4>
+        <h4>Ok lets use this command!</h4>
+        <h3>ECreateGame("first", 600, 300);
+            let Gravity = true;
+            let Friction = true;
+            EConfig(Gravity,Friction);
+            let Game = new EGame("first");
+            let Background = new EColors(1).DAY;
+            let Background_Resolution = new ESquare(600,300);
+            let Sky = new EObject(0,0,Background_Resolution,Background);
+            let Grass = new EColors(1).GREEN;
+            let Ground_Resolution = new ESquare(600,50);
+            let Ground = new EObject(0,250,Ground_Resolution,Grass);
+            let Player_Color = new EColors(1).BLACK;
+            let Player_Shape = new ESquare(10,10);
+            let Player = new EObject(20,230,Player_Shape,Player_Color);
+            function my_first_game() {
+            setTimeout(() => {
+            Player = EApplyMotion(Player);
+            Player = EApplyCollision(Player,Ground,0);
+            Player = EApplyPhysicsTo(Player);
+            EClear(Game);
+            ERender(Game,Sky);
+            ERender(Game,Ground);
+            ERender(Game,Player);
+            my_first_game();
+            }, 10);
+            }
+            my_first_game();</h3>
+        <h4>As you see the player FINALLY stands on the ground and touch grass</h4>
+        <h4>But its boring to watch it stand on the ground, isn't it?</h4>
+        <h4>So I introduce you another command: EKeyboard(Key)</h4>
+        <h4>which checks if a key is pressed or not, yep pretty much</h4>
+        <h4>Also I introduce another command: EApplyForce(Object,Force[Force X, Force Y], Limit[Left, Top, Right,
+            Bottom])</h4>
+        <h4>which applies a force to the object, but look its not confusing, the limit is just a thing</h4>
+        <h4>that won't let the force be applied if its at a certain speed or higher, you can just put false, there for
+            no limit</h4>
+        <h4>So lets just add this to our code!</h4>
+        <h3>ECreateGame("first", 600, 300);
+            let Gravity = true;
+            let Friction = true;
+            EConfig(Gravity,Friction);
+            let Game = new EGame("first");
+            let Background = new EColors(1).DAY;
+            let Background_Resolution = new ESquare(600,300);
+            let Sky = new EObject(0,0,Background_Resolution,Background);
+            let Grass = new EColors(1).GREEN;
+            let Ground_Resolution = new ESquare(600,50);
+            let Ground = new EObject(0,250,Ground_Resolution,Grass);
+            let Player_Color = new EColors(1).BLACK;
+            let Player_Shape = new ESquare(10,10);
+            let Player = new EObject(20,230,Player_Shape,Player_Color);
+            function my_first_game() {
+            setTimeout(() => {
+            Player = EApplyMotion(Player);
+            Player = EApplyCollision(Player,Ground,0);
+            Player = EApplyPhysicsTo(Player);
+
+            if (EKeyboard("W"))
+            Player = EApplyForce(Player,[0,-1],[3,3,-3,-3]);
+            if (EKeyboard("A"))
+            Player = EApplyForce(Player,[-0.2,0],[3,3,-3,-3]);
+            if (EKeyboard("S"))
+            Player = EApplyForce(Player,[0,0.2],[3,3,-3,-3]);
+            if (EKeyboard("D"))
+            Player = EApplyForce(Player,[0.2,0],[3,3,-3,-3]);
+
+            EClear(Game);
+            ERender(Game,Sky);
+            ERender(Game,Ground);
+            ERender(Game,Player);
+            my_first_game();
+            }, 10);
+            }
+            my_first_game();</h3>
+        <h4>Congratulations you just made a mosquito</h4>
+        <h4>to fix this infinite jump ability go to the next part, lol</h4>
+        <h4>Have fun and Good luck!</h4>
+        <br>
+        <h1 id="beginner">Getting Started PART 3</h1>
+        <h4>So you want to fix the problem if it jumping every time huh?</h4>
+        <h4>first you can setup a variable called jump_able which is false on default but when the object</h4>
+        <h4>collides with something it enables it! and if its not colliding, disables it</h4>
+        <h4>to check if 2 rectangles are colliding you can just simply use EBoxCollision(Object 1, Object 2)[0]</h4>
+        <h3>ECreateGame("first", 600, 300);
+            let Gravity = true;
+            let Friction = true;
+            let jump_able = false;
+            EConfig(Gravity,Friction);
+            let Game = new EGame("first");
+            let Background = new EColors(1).DAY;
+            let Background_Resolution = new ESquare(600,300);
+            let Sky = new EObject(0,0,Background_Resolution,Background);
+            let Grass = new EColors(1).GREEN;
+            let Ground_Resolution = new ESquare(600,50);
+            let Ground = new EObject(0,250,Ground_Resolution,Grass);
+            let Player_Color = new EColors(1).BLACK;
+            let Player_Shape = new ESquare(10,10);
+            let Player = new EObject(20,230,Player_Shape,Player_Color);
+            function my_first_game() {
+            setTimeout(() => {
+            Player = EApplyMotion(Player);
+
+            if (EBoxCollision(Player,Ground)[0])
+            jump_able = true;
+            else
+            jump_able = false;
+
+            Player = EApplyCollision(Player,Ground,0);
+            Player = EApplyPhysicsTo(Player);
+
+            if (EKeyboard("W") && jump_able)
+            Player = EApplyForce(Player,[0,-3],[3,3,-3,-3]);
+            if (EKeyboard("A"))
+            Player = EApplyForce(Player,[-0.2,0],[3,3,-3,-3]);
+            if (EKeyboard("S"))
+            Player = EApplyForce(Player,[0,0.2],[3,3,-3,-3]);
+            if (EKeyboard("D"))
+            Player = EApplyForce(Player,[0.2,0],[3,3,-3,-3]);
+
+            EClear(Game);
+            ERender(Game,Sky);
+            ERender(Game,Ground);
+            ERender(Game,Player);
+            my_first_game();
+            }, 10);
+            }
+            my_first_game();</h3>
+        <h4>And yep now its time to not let the player escape the scene cause we don't see it anymore then ;c</h4>
+        <h4>So ye now you got to learn bunch of lil commands</h4>
+        <br>
+        <h4>EVelocityX(object) = returns the velocity in x direction of object</h4>
+        <h4>EVelocityY(object) = returns the velocity in y direction of object</h4>
+        <h4>EPositionX(object) = returns the position x of object</h4>
+        <h4>EPositionX(object) = returns the position y of object</h4>
+        <h4>EScaleX(object) = returns the scale x of object(image or rectangle)</h4>
+        <h4>EScaleY(object) = returns the scale y of object(image or rectangle)</h4>
+        <h4>ERadius(object) = returns the radius of object(circle)</h4>
+        <h4>EType(object) = returns the type of object (Rectangle = "Square", Image = "Image", Circle = "Circle")</h4>
+        <br>
+        <h4>so these were the information ones now for the set ones</h4>
+        <br>
+        <h4>ESetVelocityX(object,value) = sets the velocity in x direction of object</h4>
+        <h4>ESetVelocityY(object,value) = sets the velocity in y direction of object</h4>
+        <h4>ESetPositionX(object,value) = sets the position x of object</h4>
+        <h4>ESetPositionX(object,value) = sets the position y of object</h4>
+        <h4>ESetScaleX(object,value) = sets the scale x of object(image or rectangle)</h4>
+        <h4>ESetScaleY(object,value) = sets the scale y of object(image or rectangle)</h4>
+        <h4>ESetRadius(object,value) = sets the radius of object(circle)</h4>
+        <br>
+        <h4>But why do we exactly need these? well in order to not let the player escape the screen you have to teleport
+            it back</h4>
+        <h4>and teleportation means change of position not speed or velocity, and the rest might get handy for you later
+        </h4>
+        <h4>so first we have to check if the player is not colliding with the Sky then teleport so here we go:</h4>
+        <h3>ECreateGame("first", 600, 300);
+            let Gravity = true;
+            let Friction = true;
+            let jump_able = false;
+            EConfig(Gravity,Friction);
+            let Game = new EGame("first");
+            let Background = new EColors(1).DAY;
+            let Background_Resolution = new ESquare(600,300);
+            let Sky = new EObject(0,0,Background_Resolution,Background);
+            let Grass = new EColors(1).GREEN;
+            let Ground_Resolution = new ESquare(600,50);
+            let Ground = new EObject(0,250,Ground_Resolution,Grass);
+            let Player_Color = new EColors(1).BLACK;
+            let Player_Shape = new ESquare(10,10);
+            let Player = new EObject(20,230,Player_Shape,Player_Color);
+            function my_first_game() {
+            setTimeout(() => {
+            Player = EApplyMotion(Player);
+
+            if (EBoxCollision(Player,Ground)[0])
+            jump_able = true;
+            else
+            jump_able = false;
+
+            if (!(EBoxCollision(Player,Sky)[0])) {
+            ESetPositionX(Player,290)
+            ESetPositionY(Player,240)
+            }
+
+            Player = EApplyCollision(Player,Ground,0);
+            Player = EApplyPhysicsTo(Player);
+
+            if (EKeyboard("W") && jump_able)
+            Player = EApplyForce(Player,[0,-3],[3,3,-3,-3]);
+            if (EKeyboard("A"))
+            Player = EApplyForce(Player,[-0.2,0],[3,3,-3,-3]);
+            if (EKeyboard("S"))
+            Player = EApplyForce(Player,[0,0.2],[3,3,-3,-3]);
+            if (EKeyboard("D"))
+            Player = EApplyForce(Player,[0.2,0],[3,3,-3,-3]);
+
+            EClear(Game);
+            ERender(Game,Sky);
+            ERender(Game,Ground);
+            ERender(Game,Player);
+            my_first_game();
+            }, 10);
+            }
+            my_first_game();</h3>
+        <h4>So it teleports the player to the center of the screen in x and in y, just on ground</h4>
+        <h4>So now if we add bunch more objects we can create a very simple jump type of game, which is what we gonna
+            do!</h4>
+        <h4>So now I am gonna just add a box that player can jump on</h4>
+        <h4>now we gotta add another apply collision and jump_able rule!</h4>
+        <h3>ECreateGame("first", 600, 300);
+            let Gravity = true;
+            let Friction = true;
+            let jump_able = false;
+            EConfig(Gravity,Friction);
+            let Game = new EGame("first");
+            let Background = new EColors(1).DAY;
+            let Background_Resolution = new ESquare(600,300);
+            let Sky = new EObject(0,0,Background_Resolution,Background);
+            let Grass = new EColors(1).GREEN;
+            let Ground_Resolution = new ESquare(600,50);
+            let Ground = new EObject(0,250,Ground_Resolution,Grass);
+            let Player_Color = new EColors(1).BLACK;
+            let Player_Shape = new ESquare(10,10);
+            let Player = new EObject(20,230,Player_Shape,Player_Color);
+            let Pad_Color = new EColors(1).BLUE;
+            let Pad_Shape = new ESquare(50,10);
+            let Pad = new EObject(20,220,Pad_Shape,Pad_Color);
+            function my_first_game() {
+            setTimeout(() => {
+            Player = EApplyMotion(Player);
+
+            if (EBoxCollision(Player,Ground)[0] || EBoxCollision(Player,Pad)[0])
+            jump_able = true;
+            else
+            jump_able = false;
+
+            if (!(EBoxCollision(Player,Sky)[0])) {
+            ESetPositionX(Player,290)
+            ESetPositionY(Player,240)
+            }
+
+            Player = EApplyCollision(Player,Ground,0);
+            Player = EApplyCollision(Player,Pad,0);
+            Player = EApplyPhysicsTo(Player);
+
+            if (EKeyboard("W") && jump_able)
+            Player = EApplyForce(Player,[0,-3],[3,3,-3,-3]);
+            if (EKeyboard("A"))
+            Player = EApplyForce(Player,[-0.2,0],[3,3,-3,-3]);
+            if (EKeyboard("S"))
+            Player = EApplyForce(Player,[0,0.2],[3,3,-3,-3]);
+            if (EKeyboard("D"))
+            Player = EApplyForce(Player,[0.2,0],[3,3,-3,-3]);
+
+            EClear(Game);
+            ERender(Game,Sky);
+            ERender(Game,Ground);
+            ERender(Game,Player);
+            ERender(Game,Pad);
+            my_first_game();
+            }, 10);
+            }
+            my_first_game();</h3>
+        <h4>So now its cool and all but yk its not fun lets add a jumppad! now the bounce force helps</h4>
+        <h4>remember when I said it will come handy soon? or maybe I didn't idk ;s</h4>
+        <h4>so we all now know what to do I don't think it needs an explanation</h4>
+        <h3>ECreateGame("first", 600, 300);
+            let Gravity = true;
+            let Friction = true;
+            let jump_able = false;
+            EConfig(Gravity,Friction);
+            let Game = new EGame("first");
+            let Background = new EColors(1).DAY;
+            let Background_Resolution = new ESquare(600,300);
+            let Sky = new EObject(0,0,Background_Resolution,Background);
+            let Grass = new EColors(1).GREEN;
+            let Ground_Resolution = new ESquare(600,50);
+            let Ground = new EObject(0,250,Ground_Resolution,Grass);
+            let Player_Color = new EColors(1).BLACK;
+            let Player_Shape = new ESquare(10,10);
+            let Player = new EObject(20,230,Player_Shape,Player_Color);
+            let Pad_Color = new EColors(1).BLUE;
+            let Pad_Shape = new ESquare(50,10);
+            let Pad = new EObject(20,220,Pad_Shape,Pad_Color);
+            let Jump_Pad_Color = new EColors(1).NIGHT
+            let Jump_Pad_Shape = new ESquare(40,10);
+            let Jump_Pad = new EObject(80,220,Jump_Pad_Shape,Jump_Pad_Color);
+            function my_first_game() {
+            setTimeout(() => {
+            Player = EApplyMotion(Player);
+
+            if (EBoxCollision(Player,Ground)[0] || EBoxCollision(Player,Pad)[0])
+            jump_able = true;
+            else
+            jump_able = false;
+
+            if (!(EBoxCollision(Player,Sky)[0])) {
+            ESetPositionX(Player,290)
+            ESetPositionY(Player,240)
+            }
+
+            Player = EApplyCollision(Player,Ground,0);
+            Player = EApplyCollision(Player,Pad,0);
+            Player = EApplyCollision(Player,Jump_Pad,2);
+            Player = EApplyPhysicsTo(Player);
+
+            if (EKeyboard("W") && jump_able)
+            Player = EApplyForce(Player,[0,-3],[3,3,-3,-3]);
+            if (EKeyboard("A"))
+            Player = EApplyForce(Player,[-0.2,0],[3,3,-3,-3]);
+            if (EKeyboard("S"))
+            Player = EApplyForce(Player,[0,0.2],[3,3,-3,-3]);
+            if (EKeyboard("D"))
+            Player = EApplyForce(Player,[0.2,0],[3,3,-3,-3]);
+
+            EClear(Game);
+            ERender(Game,Sky);
+            ERender(Game,Ground);
+            ERender(Game,Player);
+            ERender(Game,Pad);
+            ERender(Game,Jump_Pad);
+            my_first_game();
+            }, 10);
+            }
+            my_first_game();</h3>
+        <h4>but as you see its not really a good jumppad it always makes you jump with power factor of 2</h4>
+        <h4>but we want to bounce depending on our height and fall speed right? so I think you can do this ;D</h4>
+        <h3>ECreateGame("first", 600, 300);
+            let Gravity = true;
+            let Friction = true;
+            let jump_able = false;
+            EConfig(Gravity,Friction);
+            let Game = new EGame("first");
+            let Background = new EColors(1).DAY;
+            let Background_Resolution = new ESquare(600,300);
+            let Sky = new EObject(0,0,Background_Resolution,Background);
+            let Grass = new EColors(1).GREEN;
+            let Ground_Resolution = new ESquare(600,50);
+            let Ground = new EObject(0,250,Ground_Resolution,Grass);
+            let Player_Color = new EColors(1).BLACK;
+            let Player_Shape = new ESquare(10,10);
+            let Player = new EObject(20,230,Player_Shape,Player_Color);
+            let Pad_Color = new EColors(1).BLUE;
+            let Pad_Shape = new ESquare(50,10);
+            let Pad = new EObject(20,220,Pad_Shape,Pad_Color);
+            let Jump_Pad_Color = new EColors(1).NIGHT
+            let Jump_Pad_Shape = new ESquare(40,10);
+            let Jump_Pad = new EObject(80,220,Jump_Pad_Shape,Jump_Pad_Color);
+            function my_first_game() {
+            setTimeout(() => {
+            VelocityY = EVelocityY(Player)
+            Player = EApplyMotion(Player);
+
+            if (EBoxCollision(Player,Ground)[0] || EBoxCollision(Player,Pad)[0])
+            jump_able = true;
+            else
+            jump_able = false;
+
+            if (!(EBoxCollision(Player,Sky)[0])) {
+            ESetPositionX(Player,290)
+            ESetPositionY(Player,240)
+            }
+
+            Player = EApplyCollision(Player,Ground,0);
+            Player = EApplyCollision(Player,Pad,0);
+            Player = EApplyCollision(Player,Jump_Pad,(VelocityY/1.1));
+            Player = EApplyPhysicsTo(Player);
+
+            if (EKeyboard("W") && jump_able)
+            Player = EApplyForce(Player,[0,-3],[3,3,-3,-3]);
+            if (EKeyboard("A"))
+            Player = EApplyForce(Player,[-0.2,0],[3,3,-3,-3]);
+            if (EKeyboard("S"))
+            Player = EApplyForce(Player,[0,0.2],[3,3,-3,-3]);
+            if (EKeyboard("D"))
+            Player = EApplyForce(Player,[0.2,0],[3,3,-3,-3]);
+
+            EClear(Game);
+            ERender(Game,Sky);
+            ERender(Game,Ground);
+            ERender(Game,Player);
+            ERender(Game,Pad);
+            ERender(Game,Jump_Pad);
+            my_first_game();
+            }, 10);
+            }
+            my_first_game();</h3>
+        <h4>so we are currently setting it by the current Y velocity of the player</h4>
+        <h4>so now if the player goes on top of the jumppad it jumps only a bit but if the player holds s for a certain
+            time</h4>
+        <h4>after each jump the player can jump very high, also if the player falls from a high place</h4>
+        <h4>it kinda bounces it back</h4>
+        <h4>so for the last thing we gonna add we gonna add fall damage</h4>
+        <h4>what you can do is also try to add more pads and try to move them to random places</h4>
+        <h4>which can be done with ESetPositionX and ESetPositionY and that time out function we added earlier</h4>
+        <h4>good luck with that</h4>
+        <h4>so back to the fall damage, first we gotta add health</h4>
+        <h4>I am gonna set our player's health to 100 forexample</h4>
+        <h4>then check if the velocity is a lot like more than 3 or 4 in both directions</h4>
+        <h4>then minus the velocityY of the player times 5 to its health, simple enough?</h4>
+        <h4>and freeze the game when health is under 0</h4>
+        <h4>But since we also got to see the health I am gonna log it on console too</h4>
+        <h3>ECreateGame("first", 600, 300);
+            let Gravity = true;
+            let Friction = true;
+            let jump_able = false;
+            let health = 100;
+            EConfig(Gravity,Friction);
+            let Game = new EGame("first");
+            let Background = new EColors(1).DAY;
+            let Background_Resolution = new ESquare(600,300);
+            let Sky = new EObject(0,0,Background_Resolution,Background);
+            let Grass = new EColors(1).GREEN;
+            let Ground_Resolution = new ESquare(600,50);
+            let Ground = new EObject(0,250,Ground_Resolution,Grass);
+            let Player_Color = new EColors(1).BLACK;
+            let Player_Shape = new ESquare(10,10);
+            let Player = new EObject(20,230,Player_Shape,Player_Color);
+            let Pad_Color = new EColors(1).BLUE;
+            let Pad_Shape = new ESquare(50,10);
+            let Pad = new EObject(20,220,Pad_Shape,Pad_Color);
+            let Jump_Pad_Color = new EColors(1).NIGHT
+            let Jump_Pad_Shape = new ESquare(40,10);
+            let Jump_Pad = new EObject(80,220,Jump_Pad_Shape,Jump_Pad_Color);
+            function my_first_game() {
+            setTimeout(() => {
+            VelocityY = EVelocityY(Player);
+            Player = EApplyMotion(Player);
+
+            if (EBoxCollision(Player,Ground)[0] || EBoxCollision(Player,Pad)[0]) {
+            if (VelocityY > 3)
+            health-=VelocityY*5;
+            else if (VelocityY < -3) health+=VelocityY*5; console.log(health) jump_able=true; } else jump_able=false; if
+                (!(EBoxCollision(Player,Sky)[0])) { ESetPositionX(Player,290); ESetPositionY(Player,240); }
+                Player=EApplyCollision(Player,Ground,0); Player=EApplyCollision(Player,Pad,0);
+                Player=EApplyCollision(Player,Jump_Pad,(VelocityY/1.1)); Player=EApplyPhysicsTo(Player); if
+                (EKeyboard("W") && jump_able) Player=EApplyForce(Player,[0,-3],[3,3,-3,-3]); if (EKeyboard("A"))
+                Player=EApplyForce(Player,[-0.2,0],[3,3,-3,-3]); if (EKeyboard("S"))
+                Player=EApplyForce(Player,[0,0.2],[3,3,-3,-3]); if (EKeyboard("D"))
+                Player=EApplyForce(Player,[0.2,0],[3,3,-3,-3]); EClear(Game); ERender(Game,Sky); ERender(Game,Ground);
+                ERender(Game,Player); ERender(Game,Pad); ERender(Game,Jump_Pad); if (health> 0)
+                my_first_game();
+                }, 10);
+                }
+                my_first_game();</h3>
+        <h4>So now you added this, this is the end of the getting started series try beginner to intermediate after this
+            :D</h4>
+        <h4>Oh also before that try to add other html elements and mix it with the game it will come 100% handy</h4>
+        <h2>Commands & Library</h2>
+        <h1 id="shape">Shapes</h1><br>
+        <h4>There are currently only 2 shapes in the entire library which are Square and Circle</h4>
+        <h4>Each shape has its own arguments for Circle its radius and for Square its top side length and left side
+            length</h4>
+        <h4>When you create a shape it gives some changable information with it too for example square gives these infos
+        </h4>
+        <h4>Square.w which is top side length</h4>
+        <h4>Square.z which is left side length</h4>
+        <h4>Square.image which only happens if our shape is a image(EImage's shape is also square)</h4>
+        <h4>Square.Cid which is how the object should collide = "Square"</h4>
+        <h4>Square.id which is the id of the object which is "Square"/"Image"</h4>
+        <h4>Circle is also the same but without image and w and z instead a rad</h4>
+        <h4>The way we define Square which is 20 by 10 is </h4>
+        <h3>let Player = new ESquare(20,10);</h3>
+        <h4>The way we define Image which is 20 by 20 and with image being Panda.png is </h4>
+
+        <h3>let Panda = new EImage(20,20,"Panda.png");</h3>
+        <h4>The way we define circle which has a radius of 6 is </h4>
+        <h3>let Coin = new ECircle(6);</h3>
+        <h4>and yep its currently pretty much it</h4>
+        <h4>NEW UPDATE: Full on description of the EImage:</h4>
+        <h3>let shape = new EImage(scalex, scaley, imagedestination, flip = false, flop = false, rotation = 0, CoW=Scale_x, CoZ=Scale_y, CSSCode = "EImage")</h3>
+        <br>
+        <h1 id="material">Materials</h1>
+        <h4>So you want to give you shapes some materials, well you can use our premade EColors</h4>
+        <h4>its so simple to use! just needs 2 arguments, Opacity and Color</h4>
+        <h4>new EColors(Opacity from 0 to 1).Colors</h4>
+        <h4>Current Made Colors are WHITE
+            GRAY
+            BLACK
+            RED
+            DARKRED
+            PINK
+            PURPLE
+            NIGHT
+            DARKPURPLE
+            BLUE
+            DARKBLUE
+            DAY
+            LIGHTBLUE
+            BLUEGREEN
+            GREEN
+            DARKGREEN
+            YELLOWGREEN
+            YELLOW
+            DARKYELLOW
+            ORANGE</h4>
+        <h4>You can also just put RGB/RGBA code there!</h4>
+        <h4>for example "rgba(red,green,blue,opacity from 0 to 1)".</h4>
+        <h4>for example if you want day color you can use</h4>
+        <h3>let Sky = new EColors(1).DAY;</h3>
+        <h4>for example if you want a custom rgb color you can use</h4>
+        <h3>let Sky = "rgb(23,255,125)";</h3>
+        <h1 id="obj">Objects</h1>
+        <br>
+        <h4>I don't think it needs much of explanation but the way we make it is like this</h4>
+        <h4>EObject(X Position,Y Position,Shape,Material)</h4>
+        <h4>But remember all the commands use Object non of them use shape or material seperately, they are bind into
+            the object</h4>
+        <h4>When you create a object it gives some information which are</h4>
+        <h4>ERotation(object) = returns the rotation of object, degrees</h4>
+        <h4>NOTE: Rotation is a experimental feature and the collision of a rotated object is not yet possible to detect
+            or apply</h4>
+        <h4>EVelocityX(object) = returns the velocity in x direction of object</h4>
+        <h4>EVelocityY(object) = returns the velocity in y direction of object</h4>
+        <h4>EPositionX(object) = returns the position x of object</h4>
+        <h4>EPositionX(object) = returns the position y of object</h4>
+        <h4>EScaleX(object) = returns the scale x of object(image or rectangle)</h4>
+        <h4>EScaleY(object) = returns the scale y of object(image or rectangle)</h4>
+        <h4>ECollisionX(object) = returns the collision scale x of object(image or rectangle)</h4>
+        <h4>ECollisionY(object) = returns the collision scale y of object(image or rectangle)</h4>
+        <h4>ERadius(object) = returns the radius of object(circle)</h4>
+        <h4>EType(object) = returns the type of object (Rectangle = "Square", Image = "Image", Circle = "Circle")</h4>
+        <br>
+        <h4>so these were the information ones now to set them</h4>
+        <br>
+        <h4>ESetRotation(object,value) = sets the rotation of object(only square and image), degrees</h4>
+        <h4>NOTE: Rotation is a experimental feature and the collision of a rotated object is not yet possible to detect
+            or apply</h4>
+        <h4>ESetVelocityX(object,value) = sets the velocity in x direction of object</h4>
+        <h4>ESetVelocityY(object,value) = sets the velocity in y direction of object</h4>
+        <h4>ESetPositionX(object,value) = sets the position x of object</h4>
+        <h4>ESetPositionX(object,value) = sets the position y of object</h4>
+        <h4>ESetScaleX(object,value) = sets the scale x of object(image or rectangle)</h4>
+        <h4>ESetScaleY(object,value) = sets the scale y of object(image or rectangle)</h4>
+        <h4>ESetCollisionX(object,value) = sets the collision scale x of object(image or rectangle)</h4>
+        <h4>ESetCollisionY(object,value) = sets the collision scale y of object(image or rectangle)</h4>
+        <h4>ESetRadius(object,value) = sets the radius of object(circle)</h4>
+        <br>
+        <h4>And yep thats pretty much all I could say about object, except 1 thing! object.shape.Cid which is how the
+            object collides</h4>
+        <h4>I don't think you'll need it but if you did well, nice, also for more info for the Cid go to Shape part</h4>
+        <h1 id="cmds">Commands</h1>
+        <br>
+        <h4>I use the mark <sup>Exp</sup> if they are already explained</h4>
+        <h4>I use the mark <sup>OR</sup> if you can put the other thing there too for example: (1+1)<sup>OR</sup>(2+0) =
+            2 when I use OR I mean that if you select one of them you have to remove '(' and ')' for the OR</h4>
+        <h4>Current commands are, EColors<sup>Exp</sup></h4>
+        <h4>EKeyboard(key) you can check if the key is pressed for example key can be 'a' or 'B' whatever</h4>
+        <h4>EGame is a class so how you use it is, var MyGame = new EGame(canvas id), and the canvas id is the canvas id
+            of the html</h4>
+        <h4>ESquare<sup>Exp</sup>, EImage<sup>Exp</sup>, ECircle<sup>Exp</sup>, EObject<sup>Exp</sup></h4>
+        <h4>EApplyForce is a command that lets you apply force to a object, this is how it works: GameObject =
+            EApplyForce(GameObject,[force_x,force_y],([force of positive x limit, force of positive y limit, force of
+            nagative x limit, force of negative y limit])<sup>OR</sup>(false))</h4>
+        <h4>EConfig is a command that configs currently gravity and friction, all of its parts are optional,
+            EConfig(Gravity<sup>BOOLEAN</sup>,Friction<sup>BOOLEAN</sup>,Gravity Force<sup>FLOAT</sup>,Friction
+            Force<sup>FLOAT</sup>)</h4>
+        <h4>EBoxCollision checks if 2 boxes (rectangles) are collided or not it requires 2 game objects</h4>
+        <h4>EBoxCircleCollision checks if a box and a circle are collided or not it requires 2 game objects</h4>
+        <h4>ECircleCollision checks if 2 circles are collided or not it requires 2 game objects</h4>
+        <h4>ERotation<sup>Exp</sup></h4>
+        <h4>EVelocityX<sup>Exp</sup></h4>
+        <h4>EVelocityY<sup>Exp</sup></h4>
+        <h4>EPositionX<sup>Exp</sup></h4>
+        <h4>EPositionX<sup>Exp</sup></h4>
+        <h4>EScaleX<sup>Exp</sup></h4>
+        <h4>EScaleY<sup>Exp</sup></h4>
+        <h4>ERadius<sup>Exp</sup></h4>
+        <h4>EType<sup>Exp</sup></h4>
+        <h4>ESetRotation<sup>Exp</sup></h4>
+        <h4>ESetVelocityX<sup>Exp</sup></h4>
+        <h4>ESetVelocityY<sup>Exp</sup></h4>
+        <h4>ESetPositionX<sup>Exp</sup></h4>
+        <h4>ESetPositionX<sup>Exp</sup></h4>
+        <h4>ESetScaleX<sup>Exp</sup></h4>
+        <h4>ESetScaleY<sup>Exp</sup></h4>
+        <h4>ESetRadius<sup>Exp</sup></h4>
+        <h4>GameObject1 = EApplyCollision(GameObject1,GameObject2,Bounce Force) takes 2 game objects and applies the
+            colliding like they no longer pass through each other and it also takes a bounce force is obvious to be honest</h4>
+        <h4>GameObj = EApplyMotion(GameObj) applies the motion of the object must be executed after applying all the
+            physics</h4>
+        <h4>GameObj = EApplyPhysicsTo(GaneObj) which applies the gravity and friction depending on EConfig</h4>
+        <h4>ECreateGame(id,width,height) creates a canvas for the game you can use EGame(id) later then</h4>
+        <h4>ERender(Game,GameObject) Renders the object so ppl can see it</h4>
+        <h4>EClear(Game) clears the frame for the next render!</h4>
+        <h4>GameObj = EDeleteObject(Object) deletes an object, you must use this if you want to delete "image" otherwise
+            you can just set it to undefined or run this command</h4>
+        <h4></h4>
+        <h1 id="forces">Forces & Physics</h1>
+        <h4>in development(will be added pretty soon)</h4>
+        <h4>you can have normal forces and physics depended on them but soon you will have forces like Vortex (spinning + pulling/pushing)</h4>
+        <h4>Wind (different speed depending on the object size), Magnet (pushes/pulles certain stuff around itself), Saturn (pulles/pulling the object causing some cool things to happen)</h4>
+        <h4>Explosion (throws objects around it and fractures(in development(will be added in far far future)) them)</h4>
+        <br>
+        <h1 id="collide">Collisions</h1>
+        <h4>Mostly in development (will add more soon)</h4>
+        <h4>the current supported collision shapes are rectangle and circle but it will soon improve and you can have custom collisions</h4>
+        <h4>like a transparent image with its own collision automatically created</h4>
+        <br>
+        <br>
+        <br>
+        <h2>Miscellaneous</h2>
+        <br>
+        <h1 id="support">Support Us!</h1>
+        <h4>please support us and help us finish this game making library and you will be credited ;D</h4>
+        <h4>Donation: Not Ready Yet!</h4>
+        <h4>Please star this Project: <a href="https://github.com/Amirhossainj123/Electrame">https://github.com/Amirhossainj123/Electrame</a></h4>
+        <h4>Current Stars: </h4>
+        <h4 id="lines">Current written lines in Documentation: </h4>
+        <h4 id="chars">Current written characters in Documentation: </h4>
+        <br>
+        <h1 id="about">About Us</h1>
+        <h4>Read about Jefferson: <a href="https://mcdev.studio/about">https://mcdev.studio/about</a></h4>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+</body>
+
+</html>

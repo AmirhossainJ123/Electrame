@@ -1,0 +1,135 @@
+<head>
+    <script src="electrame.js"></script>
+    <title>Game Test</title>
+    <script>
+        function randomizer(min,max) {
+            return min + Math.floor(Math.random()*(max-min))
+        }
+    </script>
+</head>
+<style>
+    canvas {
+        border: 5px solid black;
+    }
+</style>
+<body>
+    <canvas id="game" width="800" height="400"></canvas>
+    <script>
+        // Setup for keyboard
+
+        key_left = false
+        key_up = false
+        key_down = false
+        key_right = false
+
+        addEventListener("keyup",(e) => {
+            switch (e.keyCode) {
+                case 37: case 65: key_left = false; break;
+                case 38: case 87: key_up = false; break;
+                case 39: case 68: key_right = false; break;
+                case 40: case 83: key_down = false; break;
+            }
+        });
+        addEventListener("keydown",(e) => {
+            switch (e.keyCode) {
+                case 37: case 65: key_left = true; break;
+                case 38: case 87: key_up = true; break;
+                case 39: case 68: key_right = true; break;
+                case 40: case 83: key_down = true; break;
+            }
+        });
+
+        // Config for Physics
+        Gravity = false // No gravity
+        Friction = true // Yes Friction :)
+        EConfig(Gravity,Friction)
+
+        // Coding Game
+        Game = new EGame("game") // Create new game
+        World = new EColors(1).DAY // Material Sky color for the background
+        Material = new EColors(1).GREEN // Material color for the player
+        MaterialShadow1 = new EColors(1).RED // Material color for the player shadow
+        MaterialShadow2 = new EColors(0.75).ORANGE // Material color for the player shadow
+        MaterialShadow3 = new EColors(0.5).YELLOW // Material color for the player shadow
+        Material2 = new EColors(1).RED // Material Blue color for the food
+        Shape = new ESquare(20,20)
+        ShadowX = new ECircle(5)
+        ShadowY = new ECircle(7)
+        ShadowZ = new ECircle(10)
+        Shape2 = new ECircle(10)
+        Shape3 = new ESquare(1000,600)
+        Background = new EObject(-100,-100,Shape3,World) // Background
+        Square = new EObject(50,50,Shape,Material) // Player (Pos_x,Pos_y,Shape,Material)
+        Shadare = new EObject(50,50,ShadowX,MaterialShadow1) // PlayerShadow (Pos_x,Pos_y,Shape,Material)
+        Shadare2 = new EObject(50,50,ShadowY,MaterialShadow2) // PlayerShadow (Pos_x,Pos_y,Shape,Material)
+        Shadare3 = new EObject(50,50,ShadowZ,MaterialShadow3) // PlayerShadow (Pos_x,Pos_y,Shape,Material)
+        Square2 = new EObject(25,100,Shape2,Material2) // Food (Pos_x,Pos_y,Shape,Material)
+
+        function Shadow1() {
+            setTimeout( (e) => {
+                Shadare.x = Square.x+10
+                Shadare.y = Square.y+10
+                Shadow1()
+            }, 30);
+        }
+
+        function Shadow2() {
+            setTimeout( (e) => {
+                Shadare2.x = Square.x+10
+                Shadare2.y = Square.y+10
+                Shadow2()
+            }, 35);
+        }
+
+        function Shadow3() {
+            setTimeout( (e) => {
+                Shadare3.x = Square.x+10
+                Shadare3.y = Square.y+10
+                Shadow3()
+            }, 40);
+        }
+
+        function My_Game() {
+            setTimeout( (e) => {
+                Square = EApplyMotion(Square) // Apply the motions for the physics and forces
+                Square2 = EApplyMotion(Square2)
+                Square = EApplyPhysicsTo(Square) // Apply friction
+                Square2 = EApplyPhysicsTo(Square2)
+                if (key_up) {
+                    Square = EApplyForce(Square,[0,-0.1],[4,4,-4,-4]) // Apply a force to Square (Object,[Force_to_x_direction,Force_to_y_direction],[Terminal Velocity for different directions])
+                }
+                if (key_left) {
+                    Square = EApplyForce(Square,[-0.1,0],[4,4,-4,-4])
+                }
+                if (key_down) {
+                    Square = EApplyForce(Square,[0,0.1],[4,4,-4,-4])
+                }
+                if (key_right) {
+                    Square = EApplyForce(Square,[0.1,0],[4,4,-4,-4])
+                }
+                BorderCol = EBoxCollision(Square,Background)[0] // Check if they are colided or not
+                Collision = EBoxCircleCollision(Square2,Square) // Check if they are colided (player ate food)
+                if (Collision) {
+                    Square2.x = randomizer(20,780) // randomize food location
+                    Square2.y = randomizer(20,380)
+                }
+                if (!BorderCol) {
+                    Square.x = randomizer(20,780)
+                    Square.y = randomizer(20,380)
+                }
+                EClear(Game) // Clear the screen (get ready to render another one)
+                ERender(Game,Background) // Render the Background in Game
+                ERender(Game,Shadare3) // Render the Player in Game
+                ERender(Game,Shadare2) // Render the Player in Game
+                ERender(Game,Shadare) // Render the Player in Game
+                ERender(Game,Square) // Render the Player in Game
+                ERender(Game,Square2) // Render the Food in Game
+                My_Game() // Loop
+            }, 10);
+        }
+        My_Game()
+        Shadow1()
+        Shadow2()
+        Shadow3()
+    </script>
+</body>

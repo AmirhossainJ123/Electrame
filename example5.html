@@ -1,0 +1,395 @@
+<head>
+    <script src="electrame.js"></script>
+    <title>StickMan</title>
+    <script>
+        function randomizer(min, max) {
+            return min + Math.floor(Math.random() * (max - min))
+        }
+    </script>
+</head>
+<style>
+    canvas {
+        top: 50%;
+        left: 50%;
+        width: 50%;
+        transform: translate(-50%, -50%);
+        border: 5px solid black;
+        background-color: white;
+        background-image: url(assets/DayLightCycle.gif);
+        background-size: cover;
+        position: absolute;
+    }
+
+    .sprt {
+        transition: 500ms;
+        background-color: black;
+        color: orange;
+        border-radius: 20px;
+        padding: 20px;
+        width: 90%;
+        margin: 2px;
+        margin-left: 33px;
+    }
+
+    .sprt:hover {
+        transition: 500ms;
+        background-color: rgba(200, 200, 0, 0.6);
+        color: black;
+    }
+
+    .sprt:active {
+        transition: 500ms;
+        background-color: rgba(200, 200, 0, 0.9);
+        color: white;
+    }
+
+    .levelbutton {
+        transition: 500ms;
+        background-color: black;
+        color: white;
+        border-radius: 20px;
+        padding: 20px;
+        width: 200px;
+        margin: 2px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+
+    .reverse {
+        transform: scaleX(-100%);
+    }
+
+    .levelbutton:hover {
+        transition: 500ms;
+        background-color: rgba(0, 200, 0, 0.6);
+        color: black;
+    }
+
+    .levelbutton:active {
+        transition: 500ms;
+        background-color: rgba(0, 200, 0, 0.9);
+        color: white;
+    }
+
+    .levelbutton:disabled:hover {
+        transition: 500ms;
+        background-color: rgba(200, 0, 0, 0.6);
+        color: darkred;
+    }
+
+    @keyframes shake {
+        0% {
+            transform: translateX(0px);
+        }
+
+        25% {
+            transform: translateX(-20px);
+        }
+
+        50% {
+            transform: translateX(0px);
+        }
+
+        75% {
+            transform: translateX(20px);
+        }
+
+        100% {
+            transform: translateX(0px);
+        }
+    }
+
+    .levelbutton:disabled:active {
+        transition: 500ms;
+        animation: shake 0.2s forwards infinite;
+        background-color: rgba(200, 0, 0, 0.9);
+        color: darkred;
+        display: inline-block;
+    }
+
+    @keyframes titleanim {
+        0% {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        9% {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        18% {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        27% {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        36% {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        45% {
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        54% {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+
+        63% {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        72% {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
+        81% {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        90% {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif, 'Times New Roman', Times, serif;
+        }
+
+        99% {
+            font-family: Verdana, Geneva, Tahoma, sans-serif, Haettenschweiler, 'Arial Narrow Bold', sans-serif, 'Times New Roman', Times, serif;
+        }
+
+        100% {
+            font-family: 'Courier New', Courier, monospace;
+        }
+    }
+
+    .MTitle {
+        color: maroon;
+        font-family: 'Courier New', Courier, monospace;
+        text-align: center;
+        animation: titleanim 20s forwards infinite;
+        font-style: normal;
+    }
+
+    .buttonlist {
+        width: 40%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        z-index: 10 !important;
+        display: flexbox;
+        justify-items: space-between;
+    }
+</style>
+
+<body>
+    <h2 id="score"></h2>
+    <canvas id="game" width="1000" height="600" onclick="jumper = true" ontouch="jumper = true"></canvas>
+    <div id="buttonlist" class="buttonlist"></div>
+    <script>
+        selectedlevel = 0
+        let Gravity = true  // Yes gravity :>
+        let Friction = true // No Friction >>:<
+        let StickmanS = new EImage(150, 150, "assets/character/idle0.gif")
+        let box = new ESquare(50, 50)
+        let box2 = new ESquare(100, 100)
+        let box3 = new ESquare(150, 150)
+        box = new EObject(600, 400, box, "rgb(100,50,50)")
+        box2 = new EObject(650, 350, box2, "rgb(100,150,100)")
+        box3 = new EObject(750, 300, box3, "rgb(150,150,200)")
+        Stickman = new EObject(10, 280, StickmanS)
+        ESetCollisionX(Stickman, 100)
+        let GroundS = new ESquare(1000, 150)
+        Ground = new EObject(0, 450, GroundS, "rgb(0,50,0)")
+        EConfig(Gravity, Friction, 1, 0.5)
+
+        Game = new EGame("game")
+        function MenuButton(style, id, onclick, text, dis) {
+            let level = document.createElement("button");
+            level.className = style
+            level.id = id
+            level.setAttribute("onclick", onclick)
+            level.textContent = text
+            level.disabled = dis
+            return document.getElementById("buttonlist").appendChild(level)
+        }
+        function MenuTitle(Text) {
+            let level = document.createElement("h1");
+            level.className = "MTitle"
+            level.textContent = Text
+            return document.getElementById("buttonlist").appendChild(level)
+        }
+        function MenuLoad() {
+            MenuTitle("Stickman, The Explorer")
+            MenuButton("levelbutton", "tutorial", "selectedlevel=2;document.getElementById('buttonlist').remove()", "Tutorial (Coming Soon)", true)
+            MenuButton("levelbutton", "level1", "selectedlevel=1;document.getElementById('buttonlist').remove()", "Level 1", false)
+            MenuButton("levelbutton", "level2", "selectedlevel=2;document.getElementById('buttonlist').remove()", "Level 2 (Coming Soon)", true)
+            MenuButton("levelbutton", "level3", "selectedlevel=3;document.getElementById('buttonlist').remove()", "Level 3 (Coming Soon)", true)
+            MenuButton("levelbutton", "level4", "selectedlevel=4;document.getElementById('buttonlist').remove()", "Level 4 (Coming Soon)", true)
+            MenuButton("levelbutton", "level5", "selectedlevel=5;document.getElementById('buttonlist').remove()", "Level 5 (Coming Soon)", true)
+            MenuButton("sprt", "support", "window.location.href = 'https://idpay.ir/amirhossainj123'", "Donate Us :D", false)
+            MenuTick()
+        }
+        function MenuTick() {
+            setTimeout(() => {
+                if (selectedlevel == 1) {
+                    Level1Tick()
+                }
+                else MenuTick()
+            }, 200)
+        }
+        PlayerAnimations = [
+            [
+                "assets/character/idle0.gif",
+                "assets/character/idle0.gif",
+                "assets/character/idle0.gif",
+                "assets/character/idle0.gif",
+                "assets/character/idle0.gif",
+                "assets/character/idle0.gif",
+                "assets/character/idle0.gif",
+                "assets/character/idle1.gif",
+                "assets/character/idle1.gif",
+                "assets/character/idle1.gif",
+                "assets/character/idle1.gif",
+                "assets/character/idle1.gif",
+                "assets/character/idle1.gif",
+                "assets/character/idle1.gif"
+            ],
+            [
+                "assets/character/itr0.gif",
+                "assets/character/itr0.gif",
+                "assets/character/itr0.gif",
+                "assets/character/itr1.gif",
+                "assets/character/itr1.gif",
+                "assets/character/itr1.gif",
+                "assets/character/itr2.gif",
+                "assets/character/itr2.gif",
+                "assets/character/itr2.gif",
+                "assets/character/itr3.gif",
+                "assets/character/itr3.gif",
+                "assets/character/itr3.gif"
+            ],
+            [
+                "assets/character/run0.gif",
+                "assets/character/run1.gif",
+                "assets/character/run2.gif",
+                "assets/character/run3.gif",
+                "assets/character/run4.gif",
+                "assets/character/run5.gif",
+                "assets/character/run6.gif",
+                "assets/character/run7.gif",
+                "assets/character/run8.gif",
+                "assets/character/run9.gif"
+            ],
+            [
+                "assets/character/itr3.gif",
+                "assets/character/itr3.gif",
+                "assets/character/itr3.gif",
+                "assets/character/itr2.gif",
+                "assets/character/itr2.gif",
+                "assets/character/itr2.gif",
+                "assets/character/itr1.gif",
+                "assets/character/itr1.gif",
+                "assets/character/itr1.gif",
+                "assets/character/itr0.gif",
+                "assets/character/itr0.gif",
+                "assets/character/itr0.gif"
+            ]
+        ]
+        CurrentAnimationSlot = 0 // AKA IDLE
+        CurrentAnimationFrame = 0 // AKA "idle0.gif"
+        idle = true; itr = false; run = false; rti = false;
+
+        function displayPlayer(player, grnd) {
+            OldCAF = CurrentAnimationSlot
+            if (player.vx > 0) {
+                run = true
+                CurrentAnimationSlot = 2
+                if ((idle || itr) && !rti) {
+                    idle = false
+                    itr = true
+                    run = false
+                    rti = false
+                    CurrentAnimationSlot = 1
+                }
+                player.shape.CSSCode = "EImage"
+                player.shape.flip = false
+            }
+            else if (player.vx < 0) {
+                run = true
+                CurrentAnimationSlot = 2
+                if ((idle || itr) && !rti) {
+                    idle = false
+                    rti = false
+                    itr = true
+                    run = false
+                    CurrentAnimationSlot = 1
+                }
+                player.shape.flip = true
+            }
+            else {
+                idle = true;
+                CurrentAnimationSlot = 0
+                if ((run || rti) && !itr) {
+                    idle = false
+                    itr = false
+                    rti = true
+                    run = false
+                    CurrentAnimationSlot = 3
+                }
+            }
+            if (OldCAF != CurrentAnimationSlot)
+                CurrentAnimationFrame = 0
+            if (CurrentAnimationFrame == 11 && itr) {
+                itr = false
+                idle = false
+                run = true
+                rti = false
+                CurrentAnimationSlot = 2
+            }
+            if (CurrentAnimationFrame == 11 && rti) {
+                itr = false
+                rti = false
+                idle = true
+                run = false
+                CurrentAnimationSlot = 0
+            }
+            CurrentAnimationFrame++
+            if (PlayerAnimations[CurrentAnimationSlot].length <= CurrentAnimationFrame)
+                CurrentAnimationFrame = 0
+            player.shape.image = PlayerAnimations[CurrentAnimationSlot][CurrentAnimationFrame]
+            return player
+        }
+        currentframe = 0
+        function Level1Tick() {
+            setTimeout(() => {
+                Stickman = displayPlayer(Stickman, Ground);
+                jump_able = EBoxCollision(Stickman, Ground)[0] 
+                || EBoxCollision(Stickman, box)[0] 
+                || EBoxCollision(Stickman, box2)[0] 
+                || EBoxCollision(Stickman, box3)[0];
+                Stickman = EApplyCollision(Stickman, box3, Stickman.vy * 0.01);
+                Stickman = EApplyCollision(Stickman, box2, Stickman.vy * 0.01);
+                Stickman = EApplyCollision(Stickman, box, Stickman.vy * 0.01);
+                Stickman = EApplyCollision(Stickman, Ground, Stickman.vy * 0.01);
+                Stickman = EApplyMotion(Stickman);
+                Stickman = EApplyPhysicsTo(Stickman);
+                if (EKeyboard("W") && jump_able)
+                    Stickman = EApplyForce(Stickman, [0, -20], [20, 20, -20, -20]);
+                if (EKeyboard("A"))
+                    Stickman = EApplyForce(Stickman, [-3, 0], [10, 10, -10, -10]);
+                if (EKeyboard("S"))
+                    Stickman = EApplyForce(Stickman, [0, 3], [10, 10, -10, -10]);
+                if (EKeyboard("D"))
+                    Stickman = EApplyForce(Stickman, [3, 0], [10, 10, -10, -10]);
+                EClear(Game);
+                ERender(Game, Ground);
+                ERender(Game, box);
+                ERender(Game, box2);
+                ERender(Game, box3);
+                ERender(Game, Stickman);
+                Level1Tick();
+            }, 10)
+        }
+        MenuLoad()
+    </script>
+</body>

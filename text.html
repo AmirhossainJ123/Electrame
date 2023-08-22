@@ -1,0 +1,76 @@
+<html>
+    <script src="electrame.js"></script>
+    <body>
+        <script>
+            EInit();
+            ECreateGame("first", 600, 300);
+            let Gravity = true;
+            let Friction = true;
+            let jump_able = false;
+            let health = 100;
+            EConfig(Gravity,Friction);
+            let Game = new EGame("first");
+            let Background = new EColors(1).DAY;
+            let Background_Resolution = new ESquare(600,300);
+            let Sky = new EObject(0,0,Background_Resolution,Background);
+            let Grass = new EColors(1).GREEN;
+            let Ground_Resolution = new ESquare(600,50);
+            let Ground = new EObject(0,250,Ground_Resolution,Grass);
+            let Player_Color = new EColors(1).BLACK;
+            let Player_Shape = new ESquare(10,10);
+            let Player = new EObject(20,230,Player_Shape,Player_Color);
+            let Pad_Color = new EColors(1).BLUE;
+            let Pad_Shape = new ESquare(50,10);
+            let Pad = new EObject(20,220,Pad_Shape,Pad_Color);
+            let Jump_Pad_Color = new EColors(1).NIGHT
+            let Jump_Pad_Shape = new ESquare(40,10);
+            let Jump_Pad = new EObject(80,220,Jump_Pad_Shape,Jump_Pad_Color);
+            function my_first_game() {
+                setTimeout(() => {
+                    VelocityY = EVelocityY(Player);
+                    Player = EApplyMotion(Player);
+            
+                    if (EBoxCollision(Player,Ground)[0] || EBoxCollision(Player,Pad)[0]) {
+                        if (VelocityY > 3)
+                            health-=VelocityY*5;
+                        else if (VelocityY < -3)
+                            health+=VelocityY*5;
+                        console.log(health)
+                        jump_able = true;
+                    }
+                    else
+                        jump_able = false;
+            
+                    if (!(EBoxCollision(Player,Sky)[0])) {
+                        ESetPositionX(Player,290);
+                        ESetPositionY(Player,240);
+                    }
+            
+                    Player = EApplyCollision(Player,Ground,[0,0,0,0]);
+                    Player = EApplyCollision(Player,Pad,[0,0,0,0]);
+                    Player = EApplyCollision(Player,Jump_Pad,[0,0,0,-(VelocityY/1.1) - 1]);
+                    Player = EApplyPhysicsTo(Player);
+            
+                    if (EKeyboard("W") && jump_able)
+                        Player = EApplyForce(Player,[0,-3],[3,3,-3,-3]);
+                    if (EKeyboard("A"))
+                        Player = EApplyForce(Player,[-0.2,0],[3,3,-3,-3]);
+                    if (EKeyboard("S"))
+                        Player = EApplyForce(Player,[0,0.2],[3,3,-3,-3]);
+                    if (EKeyboard("D"))
+                        Player = EApplyForce(Player,[0.2,0],[3,3,-3,-3]);
+            
+                    EClear(Game);
+                    ERender(Game,Sky);
+                    ERender(Game,Ground);
+                    ERender(Game,Player);
+                    ERender(Game,Pad);
+                    ERender(Game,Jump_Pad);
+                    if (health > 0)
+                        my_first_game();
+                }, 10);
+            }
+            my_first_game();
+        </script>
+    </body>
+</html>

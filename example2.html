@@ -1,0 +1,164 @@
+<head>
+    <script src="electrame.js"></script>
+    <title>Game Test</title>
+    <script>
+        function randomizer(min,max) {
+            return min + Math.floor(Math.random()*(max-min))
+        }
+    </script>
+</head>
+<style>
+    canvas {
+        border: 5px solid black;
+    }
+</style>
+<body>
+    <canvas id="game" width="800" height="400"></canvas>
+    <h2 id="score">Loading</h2>
+    <script>
+        // Setup for keyboard
+
+        // Config for Physics
+        Gravity = true  // YES gravity :DDD
+        Friction = true // Yes Friction :)
+        EConfig(Gravity,Friction)
+
+        // Coding Game
+        Game = new EGame("game")
+        World = new EColors(1).DAY
+        Sq = new EColors(1).BLACK
+        BIO = new EColors(1).PINK
+        Gold = new EColors(1).ORANGE
+        CoinB = new EColors(1).YELLOW
+        Jumpad = new EColors(1).GREEN
+        Grass = new EColors(1).DARKGREEN
+        Sky = new ESquare(1000,600)
+        Squr = new ECircle(10)
+        CircleC = new ECircle(7)
+        CircleCB = new ECircle(10)
+        Bois = new ESquare(100,20)
+        Grond = new ESquare(1000,50)
+        Background = new EObject(-100,-100,Sky,World) // Background
+        Square = new EObject(100,100,Squr,Sq) // Boi
+        Pads = new EObject(100,300,Bois,BIO) // Boiz
+        Padz = new EObject(200,310,Bois,BIO) // Boiz
+        Padx = new EObject(300,310,Bois,BIO) // Boiz
+        Pady = new EObject(400,310,Bois,BIO) // Boiz
+        Jady = new EObject(500,410,Bois,Jumpad) // Joiz
+        Coin = new EObject(100,110,CircleC,Gold) // Quin
+        CoinB = new EObject(100,110,CircleCB,CoinB) // Quin
+        Ground = new EObject(-100,350,Grond,Grass) // BoiGround
+        jump_able = false
+        function PadSwitch(Pods,delay,minranx,maxranx,minrany,maxrany) {
+            setTimeout(()=> {
+                Pods.x = randomizer(minranx,maxranx)
+                Pods.y = randomizer(minrany,maxrany)
+                while (EBoxCircleCollision(Square,Pods)) {
+                    Pods.x = randomizer(minranx,maxranx)
+                    Pods.y = randomizer(minrany,maxrany)
+                }
+                PadSwitch(Pods,delay,minranx,maxranx,minrany,300-Square.shape.rad)
+            },delay)
+        }
+        function Grunder(Grund,Pod) {
+            if (Grund) {
+                jump_able = true
+                if (Square.vy > 0)
+                    Square.vy = 0
+                Results = Square.y
+                CPos = Square.y+Square.shape.rad
+                PPos = Pod.y+Pod.shape.z
+                if (CPos >= PPos) {
+                    Results = PPos+Square.shape.rad
+                    Square.vy = 1
+                    jump_able = false
+                }
+                else
+                    Results = Pod.y-Square.shape.rad
+                Square.y = Results
+            }
+        }
+        function Greender(Grund,Pod) {
+            if (Grund) {
+                Square.vx=Square.vx
+                Square.vy=-Square.vy-1
+            }
+        }
+        score = 0
+        function My_Game() {
+            setTimeout( (e) => {
+                document.getElementById("score").textContent = "Score: " + score;
+                key_up = EKeyboard("W")
+                key_left = EKeyboard("A")
+                key_down = EKeyboard("S")
+                key_right = EKeyboard("D")
+                Square = EApplyMotion(Square)
+                Square = EApplyPhysicsTo(Square)
+                if (key_up && jump_able) {
+                    jump_able = false
+                    Square = EApplyForce(Square,[0,-2.5],[0,6,0,-6]) // Apply a force to Square (Object,[Force_to_x_direction,Force_to_y_direction],[Terminal Velocity for different directions])
+                }
+                if (key_left) {
+                    Square = EApplyForce(Square,[-0.1,0],[4,4,-4,-4])
+                }
+                if (key_down) {
+                    Square = EApplyForce(Square,[0,0.1],[4,4,-4,-4])
+                }
+                if (key_right) {
+                    Square = EApplyForce(Square,[0.1,0],[4,4,-4,-4])
+                }
+                BorderCol = EBoxCircleCollision(Square,Background) // Check if they are colided or not
+                jump_able=false;
+                Grund = EBoxCircleCollision(Square,Ground)
+                if (Grund) {
+                    jump_able = true
+                    if (Square.vy > 0)
+                        Square.vy = 0
+                    if (Square.y >= Ground.y-1)
+                        Square.y = 550
+                }
+                Grund = EBoxCircleCollision(Square,Pads)
+                Grunder(Grund,Pads)
+                Grund = EBoxCircleCollision(Square,Padz)
+                Grunder(Grund,Padz)
+                Grund = EBoxCircleCollision(Square,Padx)
+                Grunder(Grund,Padx)
+                Grund = EBoxCircleCollision(Square,Pady)
+                Grunder(Grund,Pady)
+                Grund = EBoxCircleCollision(Square,Jady)
+                Greender(Grund,Jady)
+                if (ECircleCollision(Square,CoinB)[0]) {
+                    score++;
+                    Coin.x = randomizer(20,780)
+                    Coin.y = randomizer(30,300)
+                    CoinB.x = Coin.x
+                    CoinB.y = Coin.y
+                    Square.shape.rad++;
+                }
+                if (!BorderCol) {
+                    Square.x = randomizer(20,780)
+                    Square.y = randomizer(300,310)
+                }
+                EClear(Game) // Clear the screen (get ready to render another one)
+                ERender(Game,Background) // Render the Background in Game
+                ERender(Game,Ground) // Render the GRND in Game
+                ERender(Game,Square) // Render the BOI in Game
+                ERender(Game,Pads) // Render the BOI in Game
+                ERender(Game,Padz) // Render the BOIZ in Game
+                ERender(Game,Padx) // Render the BOIX in Game
+                ERender(Game,Pady) // Render the BOIY in Game
+                ERender(Game,Jady) // Render the JOIZ in Game
+                ERender(Game,CoinB) // Render the JOIZ in Game
+                ERender(Game,Coin) // Render the JOIZ in Game
+                My_Game() // Loop
+            }, 10);
+        }
+        My_Game()
+        //PadSwitch(Pods,delay,minranx,maxranx,minrany,maxrany)
+        PadSwitch(Pads,10000,30,780,30,300-Square.shape.rad)
+        PadSwitch(Padz,7000,40,660,40,300-Square.shape.rad)
+        PadSwitch(Padx,5000,50,540,50,300-Square.shape.rad)
+        PadSwitch(Pady,3000,60,420,60,300-Square.shape.rad)
+        PadSwitch(Jady,6000,10,780,30,300-Square.shape.rad)
+    </script>
+</body>

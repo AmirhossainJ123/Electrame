@@ -1,0 +1,93 @@
+<head>
+    <script src="electrame.js"></script>
+    <title>Game Test</title>
+    <script>
+        function randomizer(min,max) {
+            return min + Math.floor(Math.random()*(max-min))
+        }
+    </script>
+</head>
+<style>
+    canvas {
+        border: 5px solid black;
+    }
+</style>
+<body>
+    <canvas id="game" width="800" height="400"></canvas>
+    <script>
+         // Initiate for images and stuff
+
+        // Config for Physics
+        Gravity = false  // NO gravity >:C
+        Friction = true // Yes Friction :)
+        EConfig(Gravity,Friction)
+
+        function abs(num) {
+            if (num < 0)
+                return -num
+            else
+                return num
+        }
+        // Coding Game
+        Game = new EGame("game") // Define game (canvas id)
+        World = new EColors(1).DAY // background color (any RGB color (which I put some built-in premade))
+        Sq = new EColors(1).BLACK // Small Box color
+        SqS = new EColors(1).GREEN // Ball color
+        SqA = new EColors(1).WHITE // Tall rectangle color
+        Sky = new EImage(1000,600,"https://www.textures.com/system/gallery/photos/Landscapes/Skies%20Partial/16294/Skies0239_350.jpg") // background shape (width and height)
+        Boll = new ECircle(5) // ball shape (radius)
+        Grond = new ECircle(10) // Small box shape 
+        Grund = new ESquare(10,50) // Tall rectangle shape
+        Background = new EObject(-100,-100,Sky,World) // Object Background (x,y,shape,material)
+        Player1 = new EObject(100,100,Grond,Sq) // Object Small Box
+        Player2 = new EObject(200,200,Grund,SqA) // Object Tall Rectangle
+        Corcle = new EObject(300,300,Boll,SqS) // Object Ball
+        function My_Game() { // Game Functions
+            setTimeout( () => {
+                Player1 = EApplyCollision(Player1,Player2,1) // Apply Collision like apply it not detect it (Object 1 which is going to be moved, Object 2 which is static, Bounce Force(right, left, bottom, top))
+                Corcle = EApplyCollision(Corcle,Player1,1)
+                Corcle = EApplyCollision(Corcle,Player2,1)
+                Corcle = EApplyMotion(Corcle) // Applies all the motions added to the object even physics, without this the object doesnt move
+                Player1 = EApplyMotion(Player1)
+                Player2 = EApplyMotion(Player2)
+                Corcle = EApplyPhysicsTo(Corcle) // Friction, Gravity, other stuff will come soon
+                Player1 = EApplyPhysicsTo(Player1)
+                Player2 = EApplyPhysicsTo(Player2)
+                if (EKeyboard("W")) // Check if a key is pressed
+                    Player1 = EApplyForce(Player1,[0,-0.1],[3,3,-3,-3]) // Apply -0.1y force to the player with the limit of the speed being -3
+                if (EKeyboard("A"))
+                    Player1 = EApplyForce(Player1,[-0.1,0],[3,3,-3,-3]) // limit = left, top, right, bottom
+                if (EKeyboard("S"))
+                    Player1 = EApplyForce(Player1,[0,0.1],[3,3,-3,-3])
+                if (EKeyboard("D"))
+                    Player1 = EApplyForce(Player1,[0.1,0],[3,3,-3,-3])
+                
+                if (EKeyboard("I"))
+                    Player2 = EApplyForce(Player2,[0,-0.1],[3,3,-3,-3])
+                if (EKeyboard("J"))
+                    Player2 = EApplyForce(Player2,[-0.1,0],[3,3,-3,-3])
+                if (EKeyboard("K"))
+                    Player2 = EApplyForce(Player2,[0,0.1],[3,3,-3,-3])
+                if (EKeyboard("L"))
+                    Player2 = EApplyForce(Player2,[0.1,0],[3,3,-3,-3])
+
+                if (EKeyboard("8"))
+                    Corcle = EApplyForce(Corcle,[0,-0.1],[3,3,-3,-3])
+                if (EKeyboard("4"))
+                    Corcle = EApplyForce(Corcle,[-0.1,0],[3,3,-3,-3])
+                if (EKeyboard("2"))
+                    Corcle = EApplyForce(Corcle,[0,0.1],[3,3,-3,-3])
+                if (EKeyboard("6"))
+                    Corcle = EApplyForce(Corcle,[0.1,0],[3,3,-3,-3])
+
+                EClear(Game) // Clear the screen (get ready to render another one)
+                ERender(Game,Background) // Render the Background in Game
+                ERender(Game,Player1) // Render the Player1 in Game
+                ERender(Game,Player2) // Render the Player2 in Game
+                ERender(Game,Corcle) // Render the Corcle in Game
+                My_Game()
+            },10)
+        }
+        My_Game() // Run Game Function
+    </script>
+</body>

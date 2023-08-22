@@ -1,0 +1,119 @@
+<head>
+    <script src="electrame.js"></script>
+    <title>Game Test</title>
+    <script>
+        function randomizer(min,max) {
+            return min + Math.floor(Math.random()*(max-min))
+        }
+    </script>
+</head>
+<style>
+    canvas {
+        top: 50%;
+        left: 50%;
+        width: 50%;
+        transform: translate(-50%,-50%);
+        border: 5px solid black;
+        background-color: black;
+        position: absolute;
+    }
+</style>
+<body>
+    <canvas id="game" width="1000" height="800"></canvas>
+    <script>
+        function AddEntity(num) {
+            for (let x = 0; x < num; x++) {
+                ball = new ECircle(randomizer(5,25))
+                balls = `rgb(${randomizer(50,205)},${randomizer(50,205)},${randomizer(50,205)})` // background color (any RGB color (which I put some built-in premade))
+                jerks.push(new EObject(randomizer(20,980),randomizer(20,600),ball,balls));
+            }
+        }
+         // Initiate for images and stuff
+
+        // Config for Physics
+        Gravity = true  // NO gravity >:C
+        Friction = true // Yes Friction :)
+        EConfig(Gravity,Friction)
+        function CreateArray(num) {A = []; for (var x = 0; x < num; x++) {A.push(0);} return A;}
+        function abs(num) {
+            if (num < 0)
+                return -num
+            else
+                return num
+        }
+        // Coding Game
+        let ballls = 300;
+        try {
+            if (window.location.href.split("?")[1] != null || window.location.href.split("?")[1] != undefined)
+                ballls = parseInt(window.location.href.split("?")[1]);
+        } catch {
+            ballls = 300;
+        }
+        Game = new EGame("game") // Define game (canvas id)
+        jerks = CreateArray(ballls)
+        for (let x = 0; x < jerks.length; x++) {
+            ball = new ECircle(randomizer(5,25))
+            balls = `rgb(${randomizer(50,205)},${randomizer(50,205)},${randomizer(50,205)})` // background color (any RGB color (which I put some built-in premade))
+            jerks[x] = new EObject(randomizer(20,980),randomizer(20,600),ball,balls);
+            for (let y = 0; y < jerks.length; y++) {
+                try {
+                    if (x != y) {
+                        if (ECircleCollision(jerks[x],jerks[y])[0]) {
+                            ball = new ECircle(randomizer(5,25))
+                            jerks[x] = new EObject(randomizer(20,980),randomizer(20,600),ball,balls);
+                            y = -1
+                        }
+                    }
+                } catch {continue}
+            }
+        }
+        grnd = new EColors(1).GRAY // background color (any RGB color (which I put some built-in premade))
+        grond = new ESquare(1000,100)
+        ground = new EObject(0,700,grond,grnd) // Object Background (x,y,shape,material)
+        function colors() {
+            setTimeout(() => {
+                jerks.forEach((e) => {
+                    if (EBoxCircleCollision(e,ground)) {
+                        let bew = e.color;
+                        e.color = `rgb(${randomizer(50,205)},${randomizer(50,205)},${randomizer(50,205)})`
+                        setTimeout(() => {
+                            e.color = bew
+                        },250)
+                    }
+                })
+                colors()
+            },2000)
+        }
+        function My_Game() { // Game Functions
+                for (let x = 0; x < jerks.length; x++) {
+                    jerks[x] = EApplyPhysicsTo(jerks[x])
+                    for (let y = 0; y < jerks.length; y++) {
+                        jerks[y].vy = 3
+                        if (x != y) {
+                            if (ECircleCollision(jerks[x],jerks[y])[0]) {
+                                jerks[x].vy = 10
+                                jerks[y].vy = 0.1
+                                jerks[x] = EApplyCollision(jerks[x],jerks[y],0.1) // Apply Collision like apply it not detect it (Object 1 which is going to be moved, Object 2 which is static, Bounce Force(right, left, bottom, top))
+                                jerks[x].color = jerks[y].color
+                            }
+                        }
+                    }
+                    jerks[x] = EApplyCollision(jerks[x],ground,1) // Apply Collision like apply it not detect it (Object 1 which is going to be moved, Object 2 which is static, Bounce Force(right, left, bottom, top))
+                    if (EBoxCircleCollision(jerks[x],ground)) {
+                        jerks[x].vy = -0.1
+                    }
+                    jerks[x] = EApplyMotion(jerks[x])
+
+                }
+                setTimeout( () => {
+                    EClear(Game) // Clear the screen (get ready to render another one)
+                    for (let x = 0; x < jerks.length; x++)
+                        ERender(Game,jerks[x])
+                    ERender(Game,ground) // Render the Background in Game
+                    My_Game()
+                },10)
+        }
+        My_Game() // Run Game Function
+        colors() // Run Game Function
+    </script>
+</body>
